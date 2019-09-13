@@ -2,7 +2,7 @@
 <template>
   <div class="container">
     <b-container fluid class="bv-example-row">
-      <b-row >
+      <b-row>
         <Goals />
         <Grid />
         <Inventory />
@@ -28,5 +28,6 @@ export default {
 <style>
   body {
       background: #16161d !important;
+      font: 1rem/1.5 var(--font-family-monospace);
       }
 </style>

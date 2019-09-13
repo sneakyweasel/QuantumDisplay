@@ -3,48 +3,54 @@
     <h1 class="text-center text-white">
       Level 1: Weasel, save the world!
     </h1>
-    <div
-      class="game-grid columns"
-      @mousedown="isMouseDown = true"
-      @mouseup="isMouseDown = false"
-      @mouseleave="isMouseDown = false">
-      <!-- <div
-        is="grid-cell"
-        v-for="(item, index) in height"
-        v-bind:key="item.id"
-        v-bind:item="item"
-        v-bind:index="index"
-      /> -->
+    <div>
       <div
-        v-for="(col, indexX) in width"
-        :key="indexX"
-        class="game-column"
+        class="game-grid columns"
+        @mousedown="isMouseDown = true"
+        @mouseup="isMouseDown = false"
+        @mouseleave="isMouseDown = false"
       >
-        <grid-cell
-          v-for="(isAlive, indexY) in height"
-          :key="indexY"
-          :status-obj="isAlive"
-          :x-pos="indexX"
-          :y-pos="indexY"
-        />
+        <div
+          v-for="(col, indexX) in width"
+          :key="indexX"
+          class="game-column"
+        >
+          <grid-cell
+            v-for="(isAlive, indexY) in height"
+            :key="indexY"
+            :status-obj="isAlive"
+            :x-pos="indexX"
+            :y-pos="indexY"
+          />
+        </div>
       </div>
+      <controls />
     </div>
   </b-col>
 </template>
 
 <script>
 import Cell from './Cell'
+import Controls from './Controls'
 export default {
   components: {
-    'grid-cell': Cell
+    'grid-cell': Cell,
+    'controls': Controls
   },
   data () {
     return {
-      width: 10,
+      width: 14,
       height: 10,
       gridList: [],
       currentFrame: 0,
-      isMouseDown: false
+      isMouseDown: false,
+      cells: [
+        { x: 1, y: 1, cell: 'laser', frozen: false },
+        { x: 2, y: 1, cell: 'mirror', frozen: false },
+        { x: 3, y: 1, cell: 'beamsplitter', frozen: false },
+        { x: 4, y: 1, cell: 'detector', frozen: false },
+        { x: 5, y: 1, cell: 'detector', frozen: false }
+      ]
     }
   }
 }

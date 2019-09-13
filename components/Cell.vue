@@ -32,11 +32,16 @@ export default {
 
 <style lang="scss">
   .cell {
-    width: 20px;
-    height: 20px;
-
+    border-right: 1px solid #1a0707;
+    border-bottom: 1px solid #1a0707;
+    width: 50px;
+    height: 50px;
+    background-color: rgb(33, 13, 71);
+    border: 0%;
+    &:hover {
+      background-color: rgba(75, 25, 109, 0.6);
+    }
   }
-
   .laser {
      background: url(~assets/tiles/laser_64.png);
      background-repeat: no-repeat;
@@ -69,21 +74,5 @@ export default {
   }
   .rotate_270, .left {
      transform: rotate(-90deg);
-  }
-  .cell {
-    // flex: 1;
-    border-right: 1px solid #1a0707;
-    border-bottom: 1px solid #1a0707;
-    // padding-bottom: 100%;
-    width: 50px;
-    height: 50px;
-    background-color: purple;
-    border: 0%;
-  }
-  .cell:hover {
-    background-color: rgba(132, 26, 26, 0.6);
-  }
-  .alive {
-    background-color: #bb4747 !important;
   }
 </style>
