@@ -52,6 +52,27 @@ export default {
         { x: 5, y: 1, cell: 'detector', frozen: false }
       ]
     }
+  },
+  created () {
+    // this.cellCalc()
+  },
+  methods: {
+    cellCalc: () => {
+      for (let i = 0; i < this.width; i++) {
+        this.gridList[i] = []
+        for (let j = 0; j < this.height; j++) {
+          if (this.cells.includes([i, j])) {
+            this.gridList[i][j] = { isAlive: false }
+            this.setCell(i, j, true)
+          }
+        }
+      }
+    }
+  },
+  setCell: (x, y, bool) => {
+    if (this.gridList[x][y].isAlive !== bool) {
+      this.gridList[x][y].isAlive = bool
+    }
   }
 }
 </script>

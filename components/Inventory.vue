@@ -7,7 +7,9 @@
       <div role="tablist">
         <b-card no-body class="mb-1 bg-dark">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button block href="#" v-b-toggle.accordion-1 variant="info">Reflectors</b-button>
+            <b-button v-b-toggle.accordion-1 block href="#" variant="info">
+              Reflectors
+            </b-button>
           </b-card-header>
           <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
             <b-card-body>
@@ -18,7 +20,9 @@
         </b-card>
         <b-card no-body class="mb-1 bg-dark">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button block href="#" v-b-toggle.accordion-2 variant="info">Emitters</b-button>
+            <b-button v-b-toggle.accordion-2 block href="#" variant="info">
+              Emitters
+            </b-button>
           </b-card-header>
           <b-collapse id="accordion-2" visible accordion="my-accordion" role="tabpanel">
             <b-card-body>
@@ -29,7 +33,9 @@
         </b-card>
         <b-card no-body class="mb-1 bg-dark">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button block href="#" v-b-toggle.accordion-3 variant="info">Detectors</b-button>
+            <b-button v-b-toggle.accordion-3 block href="#" variant="info">
+              Detectors
+            </b-button>
           </b-card-header>
           <b-collapse id="accordion-3" visible accordion="my-accordion" role="tabpanel">
             <b-card-body>
