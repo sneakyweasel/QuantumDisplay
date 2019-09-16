@@ -15,12 +15,13 @@
           :key="indexX"
           class="game-column"
         >
-          <grid-cell
+          <cell
             v-for="(isAlive, indexY) in height"
             :key="indexY"
-            :status-obj="isAlive"
-            :x-pos="indexX"
-            :y-pos="indexY"
+            :x="indexX"
+            :y="indexY"
+            :frozen="true"
+            :rotation="90"
           />
         </div>
       </div>
@@ -34,7 +35,7 @@ import Cell from './Cell'
 import Controls from './Controls'
 export default {
   components: {
-    'grid-cell': Cell,
+    'cell': Cell,
     'controls': Controls
   },
   data () {
@@ -45,33 +46,32 @@ export default {
       currentFrame: 0,
       isMouseDown: false,
       cells: [
-        { x: 1, y: 1, cell: 'laser', frozen: false },
-        { x: 2, y: 1, cell: 'mirror', frozen: false },
-        { x: 3, y: 1, cell: 'beamsplitter', frozen: false },
-        { x: 4, y: 1, cell: 'detector', frozen: false },
-        { x: 5, y: 1, cell: 'detector', frozen: false }
+        { x: 1, y: 1, element: 'laser', frozen: false },
+        { x: 2, y: 1, element: 'mirror', frozen: false },
+        { x: 3, y: 1, element: 'beamsplitter', frozen: false },
+        { x: 4, y: 1, element: 'detector', frozen: false },
+        { x: 5, y: 1, element: 'detector', frozen: false }
       ]
     }
   },
   created () {
-    // this.cellCalc()
-  },
-  methods: {
-    cellCalc: () => {
-      for (let i = 0; i < this.width; i++) {
-        this.gridList[i] = []
-        for (let j = 0; j < this.height; j++) {
-          if (this.cells.includes([i, j])) {
-            this.gridList[i][j] = { isAlive: false }
-            this.setCell(i, j, true)
-          }
-        }
+    // Create array of cells with empty elements
+    for (let i = 0; i < this.width; i++) {
+      this.gridList[i] = []
+      for (let j = 0; j < this.height; j++) {
+        const rotationStr = 'rotate_' + Math.floor(Math.random() * Math.floor(4)) * 90
+        this.gridList[i][j] = { element: 'void', frozen: false, rotation: rotationStr }
       }
     }
   },
-  setCell: (x, y, bool) => {
-    if (this.gridList[x][y].isAlive !== bool) {
-      this.gridList[x][y].isAlive = bool
+  methods: {
+    setCell: (x, y, bool) => {
+      if (this.gridList[x][y].frozen !== bool) {
+        this.gridList[x][y].frozen = bool
+      }
+    },
+    getCell: (x, y) => {
+      return this.gridList[x][y]
     }
   }
 }

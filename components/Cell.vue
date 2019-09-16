@@ -1,30 +1,59 @@
 <template>
-  <div class="cell" />
+  <div
+    @click="rotate()"
+    :class="[
+      frozen ? 'frozen' : '',
+      element,
+      {rotation}
+    ]"
+    class="cell"
+  >
+    <p class="coordinates">
+      {{ this.coordinates }}
+    </p>
+  </div>
 </template>
 
 <script>
 export default {
   props: {
-    xPos: {
+    x: {
       default: -1,
       type: Number
     },
-    yPos: {
+    y: {
       default: -1,
       type: Number
     },
-    isMouseDown: {
+    rotation: {
+      default: 0,
+      type: Number
+    },
+    frozen: {
       default: false,
-      type: Boolean
+      type: Number
     }
   },
   data () {
-    return {
-      // The status for a single cell.
-      // Sadly it is an anti pattern because ES2015 / Vue
-      // do have some problems to deal with a 2D-Array (not-reactive).
-      // If you have a different idea how to fix this create an issue :)
-      isAlive: this.statusObj
+    // return {
+    //   x: 0,
+    //   y: 0,
+    //   element: 'void',
+    rotation: 0
+    //   frozen: this.frozen
+    // }
+  },
+  computed: {
+    coordinates () {
+      return `[${this.x}, ${this.y}]`
+    },
+    classes () {
+      return `${this.element}, ${this.isFrozen}, rotate_${this.rotation}`
+    }
+  },
+  methods: {
+    rotate: () => {
+      this.props.rotation += 90 
     }
   }
 }
@@ -39,8 +68,11 @@ export default {
     background-color: rgb(33, 13, 71);
     border: 0%;
     &:hover {
-      background-color: rgba(75, 25, 109, 0.6);
+      background-color: rgba(75, 25, 109, 1);
     }
+  }
+  .frozen {
+    background-color: aquamarine;
   }
   .laser {
      background: url(~assets/tiles/laser_64.png);
@@ -74,5 +106,12 @@ export default {
   }
   .rotate_270, .left {
      transform: rotate(-90deg);
+  }
+  .coordinates {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: grey;
+    text-align: center;
+    padding-top: 15px;
   }
 </style>
