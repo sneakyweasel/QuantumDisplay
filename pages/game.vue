@@ -1,14 +1,16 @@
 
 <template>
-  <div class="container">
-    <b-container fluid class="bv-example-row">
-      <b-row>
-        <Goals />
-        <Grid />
-        <Inventory />
-      </b-row>
-    </b-container>
-  </div>
+  <client-only>
+    <div class="container">
+      <b-container fluid class="bv-example-row">
+        <b-row>
+          <Goals />
+          <Grid />
+          <Inventory />
+        </b-row>
+      </b-container>
+    </div>
+  </client-only>
 </template>
 
 <script>
@@ -25,9 +27,11 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+  /* @import url('https://fonts.googleapis.com/css?family=Saira+Stencil+One&display=swap'); */
+  @import url('https://fonts.googleapis.com/css?family=Karla&display=swap');
   body {
       background: #16161d !important;
-      font: 1rem/1.5 var(--font-family-monospace);
+      font-family: 'Karla', cursive;
       }
 </style>

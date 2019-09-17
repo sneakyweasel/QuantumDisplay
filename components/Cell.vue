@@ -1,15 +1,15 @@
 <template>
   <div
-    @click="rotate()"
     :class="[
-      frozen ? 'frozen' : '',
+      'cell',
       element,
-      {rotation}
+      frozen ? 'frozen' : 'unfrozen',
+      rotationClass
     ]"
-    class="cell"
+    @click="rotate"
   >
     <p class="coordinates">
-      {{ this.coordinates }}
+      {{ coordinates }}
     </p>
   </div>
 </template>
@@ -25,54 +25,42 @@ export default {
       default: -1,
       type: Number
     },
-    rotation: {
-      default: 0,
-      type: Number
+    element: {
+      default: 'void',
+      type: String
     },
     frozen: {
       default: false,
+      type: Boolean
+    },
+    rotation: {
+      default: 0,
       type: Number
     }
   },
   data () {
-    // return {
-    //   x: 0,
-    //   y: 0,
-    //   element: 'void',
-    rotation: 0
-    //   frozen: this.frozen
-    // }
+    return {
+    }
   },
   computed: {
     coordinates () {
       return `[${this.x}, ${this.y}]`
     },
-    classes () {
-      return `${this.element}, ${this.isFrozen}, rotate_${this.rotation}`
+    rotationClass () {
+      return 'rotation_' + this.$props.rotation
     }
   },
   methods: {
-    rotate: () => {
-      this.props.rotation += 90 
+    rotate () {
+      this.rotation = (this.rotation + 90) % 360
     }
   }
 }
 </script>
 
 <style lang="scss">
-  .cell {
-    border-right: 1px solid #1a0707;
-    border-bottom: 1px solid #1a0707;
-    width: 50px;
-    height: 50px;
-    background-color: rgb(33, 13, 71);
-    border: 0%;
-    &:hover {
-      background-color: rgba(75, 25, 109, 1);
-    }
-  }
   .frozen {
-    background-color: aquamarine;
+    background-color: rgb(0, 104, 189) !important;
   }
   .laser {
      background: url(~assets/tiles/laser_64.png);
@@ -95,16 +83,16 @@ export default {
      background-size: contain;
   }
 
-  .rotate_0, .down {
+  .rotation_0 {
      transform: rotate(0deg);
   }
-  .rotate_90, .up {
+  .rotation_90 {
      transform: rotate(90deg);
   }
-  .rotate_180, .right {
+  .rotation_180 {
      transform: rotate(180deg);
   }
-  .rotate_270, .left {
+  .rotation_270 {
      transform: rotate(-90deg);
   }
   .coordinates {
@@ -113,5 +101,16 @@ export default {
     color: grey;
     text-align: center;
     padding-top: 15px;
+  }
+  .cell {
+    border-right: 1px solid #1a0707;
+    border-bottom: 1px solid #1a0707;
+    width: 50px;
+    height: 50px;
+    background-color: rgb(33, 13, 71);
+    border: 0%;
+    &:hover {
+      background-color: rgba(75, 25, 109, 1);
+    }
   }
 </style>

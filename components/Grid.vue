@@ -1,7 +1,7 @@
 <template>
   <b-col cols="8">
     <h1 class="text-center text-white">
-      Level 1: Weasel, save the world!
+      {{ title }}
     </h1>
     <div>
       <div
@@ -16,12 +16,13 @@
           class="game-column"
         >
           <cell
-            v-for="(isAlive, indexY) in height"
+            v-for="(row, indexY) in height"
             :key="indexY"
             :x="indexX"
             :y="indexY"
-            :frozen="true"
-            :rotation="90"
+            :frozen="getCell(indexX, indexY).frozen"
+            :element="getCell(indexX, indexY).element"
+            :rotation="getCell(indexX, indexY).rotation"
           />
         </div>
       </div>
@@ -33,6 +34,7 @@
 <script>
 import Cell from './Cell'
 import Controls from './Controls'
+
 export default {
   components: {
     'cell': Cell,
@@ -40,38 +42,58 @@ export default {
   },
   data () {
     return {
+      title: 'I - Yt+ is so friendly',
       width: 14,
       height: 10,
       gridList: [],
+      particles: [],
       currentFrame: 0,
       isMouseDown: false,
-      cells: [
-        { x: 1, y: 1, element: 'laser', frozen: false },
-        { x: 2, y: 1, element: 'mirror', frozen: false },
-        { x: 3, y: 1, element: 'beamsplitter', frozen: false },
-        { x: 4, y: 1, element: 'detector', frozen: false },
-        { x: 5, y: 1, element: 'detector', frozen: false }
+      jsonCells: [
+        { x: 3, y: 1, element: 'laser', frozen: false, rotation: 90 },
+        { x: 2, y: 1, element: 'mirror', frozen: false, rotation: 0 },
+        { x: 3, y: 1, element: 'beamsplitter', frozen: false, rotation: 180 },
+        { x: 4, y: 1, element: 'detector', frozen: true, rotation: 90 },
+        { x: 5, y: 1, element: 'detector', frozen: false, rotation: 0 }
       ]
     }
+  },
+  computed: {
   },
   created () {
     // Create array of cells with empty elements
     for (let i = 0; i < this.width; i++) {
       this.gridList[i] = []
       for (let j = 0; j < this.height; j++) {
-        const rotationStr = 'rotate_' + Math.floor(Math.random() * Math.floor(4)) * 90
-        this.gridList[i][j] = { element: 'void', frozen: false, rotation: rotationStr }
+        // Loop through data cells
+        this.jsonCells.forEach((cell) => {
+          if (i === cell.y && j === cell.x) {
+            this.gridList[cell.x][cell.y] = { element: cell.element, frozen: cell.frozen, rotation: cell.rotation }
+          } else {
+            this.gridList[cell.x][cell.y] = { element: 'void', frozen: false, rotation: 0 }
+          }
+        })
       }
     }
   },
   methods: {
-    setCell: (x, y, bool) => {
-      if (this.gridList[x][y].frozen !== bool) {
-        this.gridList[x][y].frozen = bool
-      }
-    },
-    getCell: (x, y) => {
+    getCell (x, y) {
       return this.gridList[x][y]
+    },
+    setCell (x, y, info) {
+      this.gridList[x][y] = info
+    },
+    compareCoords (x1, y1, x2, y2) {
+      return (x1 === x2 && y1 === y2)
+    },
+    includedInCells (x, y) {
+      this.cells.forEach((cell) => {
+        if (this.compareCoords(x, y, cell.x, cell.y)) {
+          return true
+        } else {
+          return false
+        }
+      })
     }
   }
 }
