@@ -6,7 +6,7 @@
     <b-list-group id="goal_list" class="bg-dark">
       <b-list-group-item class="bg-dark text-white">
         <small>Detector 1</small>
-        <b-progress :value="50" variant="danger" />
+        <b-progress :value="80" variant="danger" />
         <small>Detector 2</small>
         <b-progress :value="40" variant="danger" />
         <small>Detector 3</small>

@@ -17,12 +17,12 @@
         >
           <cell
             v-for="(row, indexY) in height"
-            :key="indexY"
+            :key="indexX * width + indexY"
             :x="indexX"
             :y="indexY"
-            :frozen="getCell(indexX, indexY).frozen"
-            :element="getCell(indexX, indexY).element"
-            :rotation="getCell(indexX, indexY).rotation"
+            :frozen="grid[indexX][indexY].frozen"
+            :element="grid[indexX][indexY].element"
+            :rotation="grid[indexX][indexY].rotation"
           />
         </div>
       </div>
@@ -43,18 +43,17 @@ export default {
   data () {
     return {
       title: 'I - Yt+ is so friendly',
-      width: 14,
+      width: 10,
       height: 10,
-      gridList: [],
+      grid: [],
       particles: [],
       currentFrame: 0,
       isMouseDown: false,
       jsonCells: [
-        { x: 3, y: 1, element: 'laser', frozen: false, rotation: 90 },
-        { x: 2, y: 1, element: 'mirror', frozen: false, rotation: 0 },
-        { x: 3, y: 1, element: 'beamsplitter', frozen: false, rotation: 180 },
-        { x: 4, y: 1, element: 'detector', frozen: true, rotation: 90 },
-        { x: 5, y: 1, element: 'detector', frozen: false, rotation: 0 }
+        { x: 1, y: 4, element: 'laser', frozen: false, rotation: 180 },
+        { x: 4, y: 4, element: 'beamsplitter', frozen: false, rotation: 180 },
+        { x: 7, y: 4, element: 'detector', frozen: true, rotation: 180 },
+        { x: 4, y: 7, element: 'detector', frozen: true, rotation: 270 }
       ]
     }
   },
@@ -62,26 +61,32 @@ export default {
   },
   created () {
     // Create array of cells with empty elements
-    for (let i = 0; i < this.width; i++) {
-      this.gridList[i] = []
-      for (let j = 0; j < this.height; j++) {
-        // Loop through data cells
-        this.jsonCells.forEach((cell) => {
-          if (i === cell.y && j === cell.x) {
-            this.gridList[cell.x][cell.y] = { element: cell.element, frozen: cell.frozen, rotation: cell.rotation }
-          } else {
-            this.gridList[cell.x][cell.y] = { element: 'void', frozen: false, rotation: 0 }
-          }
-        })
+    for (let x = 0; x < this.width; x++) {
+      this.grid[x] = []
+      for (let y = 0; y < this.height; y++) {
+        this.grid[x][y] = { element: 'void', frozen: false, rotation: 0 }
+        const cell = this.isCoordInJson(x, y)
+        if (cell && y === cell.y && x === cell.x) {
+          this.grid[x][y] = { element: cell.element, frozen: cell.frozen, rotation: cell.rotation }
+        }
       }
     }
   },
   methods: {
     getCell (x, y) {
-      return this.gridList[x][y]
+      return this.grid[x][y]
     },
     setCell (x, y, info) {
-      this.gridList[x][y] = info
+      this.grid[x][y] = info
+    },
+    isCoordInJson (x, y) {
+      const cells = this.jsonCells.filter((cell) => {
+        return (x === cell.x && y === cell.y)
+      })
+      if (cells.length > 0) {
+        console.log(cells)
+      }
+      return cells[0]
     },
     compareCoords (x1, y1, x2, y2) {
       return (x1 === x2 && y1 === y2)
