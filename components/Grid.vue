@@ -23,6 +23,7 @@
             :frozen="grid[indexX][indexY].frozen"
             :element="grid[indexX][indexY].element"
             :rotation="grid[indexX][indexY].rotation"
+            :photon="photon"
           />
         </div>
       </div>
@@ -54,6 +55,10 @@ export default {
         { x: 4, y: 4, element: 'beamsplitter', frozen: false, rotation: 180 },
         { x: 7, y: 4, element: 'detector', frozen: true, rotation: 180 },
         { x: 4, y: 7, element: 'detector', frozen: true, rotation: 270 }
+      ],
+      photons: [
+        { x: 2, y: 3, are: '1', width: '64', height: '64', vertical: 'true' },
+        { x: 2, y: 4, are: '1', width: '64', height: '64', vertical: 'false' }
       ]
     }
   },

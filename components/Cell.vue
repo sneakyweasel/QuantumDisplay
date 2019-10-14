@@ -11,11 +11,20 @@
     <p class="coordinates">
       {{ coordinates }}
     </p>
+    <!-- <div v-if="true"> -->
+      <!-- <photon :width="64" :height="64" :margin="0" /> -->
+    <!-- </div> -->
   </div>
 </template>
 
 <script>
+import Photon from './Photon'
+
 export default {
+  components: {
+    'photon': Photon
+  },
+
   props: {
     x: {
       default: -1,
