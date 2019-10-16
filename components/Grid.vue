@@ -23,7 +23,7 @@
             :frozen="grid[indexX][indexY].frozen"
             :element="grid[indexX][indexY].element"
             :rotation="grid[indexX][indexY].rotation"
-            :photon="photon"
+            :photon="grid[indexX][indexY].photon"
           />
         </div>
       </div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import * as qw from 'quantumweasel'
 import Cell from './Cell'
 import Controls from './Controls'
 
@@ -47,10 +48,9 @@ export default {
       width: 10,
       height: 10,
       grid: [],
-      particles: [],
       currentFrame: 0,
       isMouseDown: false,
-      jsonCells: [
+      cells: [
         { x: 1, y: 4, element: 'laser', frozen: false, rotation: 180 },
         { x: 4, y: 4, element: 'beamsplitter', frozen: false, rotation: 180 },
         { x: 7, y: 4, element: 'detector', frozen: true, rotation: 180 },
@@ -69,23 +69,37 @@ export default {
     for (let x = 0; x < this.width; x++) {
       this.grid[x] = []
       for (let y = 0; y < this.height; y++) {
-        this.grid[x][y] = { element: 'void', frozen: false, rotation: 0 }
-        const cell = this.isCoordInJson(x, y)
-        if (cell && y === cell.y && x === cell.x) {
-          this.grid[x][y] = { element: cell.element, frozen: cell.frozen, rotation: cell.rotation }
+        const obj = { }
+        // Found in obj
+        const cell = this.isCellDefined(x, y)
+        const photon = this.isPhotonDefined(x, y)
+        // Extend object properties
+        if (this.isCellDefined(x, y)) {
+          obj.cell = cell
+        } else {
+          obj.cell = { element: 'void', frozen: false, rotation: 0 }
         }
+        if (this.isPhotonDefined(x, y)) {
+          obj.photon = photon
+        }
+        // Place in grid
+        console.log(obj)
+        this.grid[x][y] = obj
       }
     }
   },
   methods: {
+    doWeaselStuff (x, y) {
+      return qw.grid
+    },
     getCell (x, y) {
       return this.grid[x][y]
     },
     setCell (x, y, info) {
       this.grid[x][y] = info
     },
-    isCoordInJson (x, y) {
-      const cells = this.jsonCells.filter((cell) => {
+    isCellDefined (x, y) {
+      const cells = this.cells.filter((cell) => {
         return (x === cell.x && y === cell.y)
       })
       if (cells.length > 0) {
@@ -93,18 +107,27 @@ export default {
       }
       return cells[0]
     },
+    isPhotonDefined (x, y) {
+      const photons = this.photons.filter((photon) => {
+        return (x === photon.x && y === photon.y)
+      })
+      if (photons.length > 0) {
+        console.log(photons)
+      }
+      return photons[0]
+    },
     compareCoords (x1, y1, x2, y2) {
       return (x1 === x2 && y1 === y2)
-    },
-    includedInCells (x, y) {
-      this.cells.forEach((cell) => {
-        if (this.compareCoords(x, y, cell.x, cell.y)) {
-          return true
-        } else {
-          return false
-        }
-      })
     }
+    // includedInCells (x, y) {
+    //   this.cells.forEach((cell) => {
+    //     if (this.compareCoords(x, y, cell.x, cell.y)) {
+    //       return true
+    //     } else {
+    //       return false
+    //     }
+    //   })
+    // }
   }
 }
 </script>

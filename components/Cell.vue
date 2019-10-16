@@ -1,9 +1,10 @@
 <template>
   <div
+    v-if="cell"
     :class="[
       'cell',
-      element,
-      frozen ? 'frozen' : 'unfrozen',
+      cell.element,
+      cell.frozen ? 'frozen' : 'unfrozen',
       rotationClass
     ]"
     @click="rotate"
@@ -11,14 +12,22 @@
     <p class="coordinates">
       {{ coordinates }}
     </p>
-    <!-- <div v-if="true"> -->
-      <!-- <photon :width="64" :height="64" :margin="0" /> -->
-    <!-- </div> -->
+    <div v-if="cell && cell.photon">
+      <photon :width="64" :height="64" :margin="0" :are="cell.photon.are" />
+    </div>
   </div>
 </template>
 
 <script>
-import Photon from './Photon'
+import * as qt from 'quantum-tensors'
+import Photon from './Photon.vue'
+
+// export interface PhotonInterface {
+//   are: number,
+//   aim: number,
+//   bre: number,
+//   bim: number
+// }
 
 export default {
   components: {
@@ -49,6 +58,8 @@ export default {
   },
   data () {
     return {
+      cell: {},
+      photon: {}
     }
   },
   computed: {
@@ -62,6 +73,10 @@ export default {
   methods: {
     rotate () {
       this.rotation = (this.rotation + 90) % 360
+    },
+    quantumStuff (a, b) {
+      const complex = qt.Cx(a, b)
+      console.log(complex.toString())
     }
   }
 }

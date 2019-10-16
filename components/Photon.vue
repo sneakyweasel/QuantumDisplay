@@ -49,18 +49,19 @@
 </template>
 
 <script lang="ts">
-import { select } from 'd3-selection'
-import { scaleLinear, scaleSequential } from 'd3-scale'
-import { interpolateViridis, interpolateInferno } from 'd3-scale-chromatic'
-import { range } from 'd3-array'
-const d3 = {
-  scaleLinear,
-  scaleSequential,
-  select,
-  range,
-  interpolateInferno,
-  interpolateViridis
-}
+// import { select } from 'd3-selection'
+// import { scaleLinear, scaleSequential } from 'd3-scale'
+// import { interpolateViridis, interpolateInferno } from 'd3-scale-chromatic'
+// import { range } from 'd3-array'
+// const d3 = {
+//   scaleLinear,
+//   scaleSequential,
+//   select,
+//   range,
+//   interpolateInferno,
+//   interpolateViridis
+// }
+import * as d3 from 'd3'
 
 export default {
   name: 'Photon',
